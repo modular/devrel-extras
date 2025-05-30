@@ -3,7 +3,7 @@
 numpy==1.24.3
 pandas==2.2.1
 scikit-learn==1.5.0
-torch==2.2.1
+torch==2.7.0
 transformers==4.38.2
 chromadb==0.4.24
 onnx==1.17.0
