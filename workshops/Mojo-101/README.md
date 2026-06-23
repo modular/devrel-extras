@@ -24,8 +24,6 @@ Mojo-101/
     │   ├── strict_typing.mojo       # Compiler catches a bad type assignment
     │   ├── value_semantics.mojo     # Assignment gives independent copies
     │   └── uninitialized_variable.mojo  # Compiler catches an uninitialized read
-    ├── prework/
-    │   └── problem_01.mojo      # Pre-work warm-up (attempt before session)
     └── euler/                   # Project Euler starters (solved live during session)
         ├── problem_01.mojo      # Multiples of 3 or 5
         ├── problem_02.mojo      # Even Fibonacci Numbers

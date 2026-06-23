@@ -1,5 +1,7 @@
 # Session 1 — Problem 4: Largest Palindrome Product
-# Concepts: Bool return type, String construction and indexing, nested loops, pass
+# Concepts: structs, out self constructor, mut self methods, Bool return type,
+#           String construction and indexing, nested loops
+# Ref: https://mojolang.org/docs/manual/structs/
 
 
 def is_palindrome(value: Int) -> Bool:
@@ -8,11 +10,22 @@ def is_palindrome(value: Int) -> Bool:
     return False
 
 
-def largest_palindrome_product() -> Int:
-    """Largest palindrome that is a product of two three-digit numbers."""
-    # TODO: implement this function
-    return 0
+struct PalindromeFinder:
+    var lo: Int
+    var hi: Int
+    var largest: Int
+
+    def __init__(out self, lo: Int, hi: Int):
+        self.lo = lo
+        self.hi = hi
+        self.largest = 0
+
+    def search(mut self):
+        # TODO: implement this method
+        pass
 
 
 def main():
-    print(largest_palindrome_product())
+    var finder = PalindromeFinder(100, 1000)
+    finder.search()
+    print(finder.largest)

@@ -1,5 +1,6 @@
 # Session 1 — Problem 2: Even Fibonacci Numbers
 # Concepts: while loop, var with late initialization, numeric literal underscores
+# Ref: https://mojolang.org/docs/manual/variables/
 
 
 def even_fib_sum(limit: Int) -> Int:

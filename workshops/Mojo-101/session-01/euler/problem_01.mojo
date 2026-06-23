@@ -1,5 +1,6 @@
 # Session 1 — Problem 1: Multiples of 3 or 5
 # Concepts: def, typed parameters, -> return type, for loop, if, %, or, +=, return, docstrings
+# Ref: https://mojolang.org/docs/manual/functions/
 
 
 def sum_multiples(limit: Int) -> Int:

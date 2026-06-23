@@ -1,5 +1,6 @@
 # Session 1 — Problem 6: Sum Square Difference
 # Concepts: optional arguments with defaults, keyword arguments, ** power operator
+# Ref: https://mojolang.org/docs/manual/functions/
 
 
 def sum_powers(n: Int, power: Int = 1) -> Int:

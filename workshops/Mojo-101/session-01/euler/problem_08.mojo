@@ -1,5 +1,6 @@
 # Session 1 — Problem 8: Largest Product in a Series
 # Concepts: raises, error propagation, try/except
+# Ref: https://mojolang.org/docs/manual/errors/
 
 # The 1000-digit number from Project Euler Problem 8.
 comptime DIGITS = (
