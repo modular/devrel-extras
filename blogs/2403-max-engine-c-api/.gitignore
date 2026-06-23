@@ -1,9 +1,0 @@
-inputs
-outputs.bin
-*.pt
-*.torchscript
-build
-*.jpg
-
-# keep
-!models/.gitkeep
