@@ -2,6 +2,8 @@
 
 July 9, 2026 · 60 minutes
 
+[Recording on YouTube](https://www.youtube.com/live/1Jqp0BheoEQ)
+
 ---
 
 ## What we'll cover
@@ -37,3 +39,7 @@ By the end of this session you should be able to:
 - [Project Euler](https://projecteuler.net/)
 
 ---
+
+## Optional Prework
+
+- [Mojo quickstart](https://mojolang.org/docs/manual/quickstart/)

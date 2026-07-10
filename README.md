@@ -14,7 +14,8 @@
 
 - [Mojo documentation](https://mojolang.org/docs/)
 - [Mojo examples](https://github.com/modular/modular/tree/main/mojo/examples)
-- [Mojo puzzles](https://puzzles.modular.com/)
+- [Mojo Quest](https://quest.mojolang.org/)
+- [Mojo GPU puzzles](https://puzzles.modular.com/)
 
 ### MAX
 
