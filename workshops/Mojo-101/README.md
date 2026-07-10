@@ -6,9 +6,10 @@ A hands-on workshop series for Python developers and CUDA/C++ engineers new to M
 
 ## Sessions
 
-| Session | Topic | Date |
-|---------|-------|------|
-| 1 | Language Fundamentals | July 9, 2026 |
+| Session | Topic | Date | Recording |
+|---------|-------|------|-----------|
+| 1 | Language Fundamentals | July 9, 2026 | [YouTube](https://www.youtube.com/live/1Jqp0BheoEQ) |
+| 2 | Ownership, Lifecycle, and Metaprogramming | July 16, 2026 | |
 
 ## Setup
 
@@ -28,6 +29,6 @@ Mojo-101/
     ├── variadics.mojo              # Project Euler: multiples of 3 or 5 (variadics)
     ├── structs.mojo                # Project Euler: sum square difference (structs)
     └── python_interop.mojo         # Calling Python modules from Mojo
+└── session-02/                  # Session 2: Ownership, Lifecycle, and Metaprogramming
+    └── agenda.md                 # Session agenda, objectives, resources
 ```
-
-> **Note:** Per Project Euler's rules, complete solutions are not published here.
