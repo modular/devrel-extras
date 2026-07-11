@@ -11,7 +11,10 @@ def sum_multiples(limit: Int, *divisors : Int) -> Int:
     for n in range(limit):
         for d in divisors:
             if n % d == 0:
+                # add n once as soon as any divisor matches
                 total += n
+                # Then stop checking the rest to avoid double-counting
+                break
     return total
 
 # Any number of positional arguments (after the limit) will be acceptes as divisors
