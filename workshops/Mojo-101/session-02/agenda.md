@@ -39,7 +39,7 @@ By the end of this session you should be able to:
 
 ---
 
-## Optional Prework
+## Optional Pre-reading
 
 - [Mojo Manual: Intro to value ownership](https://mojolang.org/docs/manual/values/)
 - [Mojo Manual: Ownership](https://mojolang.org/docs/manual/values/ownership/)
