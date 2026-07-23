@@ -2,6 +2,8 @@
 def multiplier[factor: Int](x: Int) -> Int:
     return x * factor
 
+# compare to def multiplier(factor: Int, x: Int) -> Int:
+
 def main():
     # times_ten is a specialized function defined at compile time
     comptime times_ten = multiplier[10]
