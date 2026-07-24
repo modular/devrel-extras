@@ -11,3 +11,11 @@ def main():
     # listing them all out individually.
     var zeros = InlineArray[Int, 5](fill=0)     # [0, 0, 0, 0, 0]
     print(len(zeros))                           # 5
+
+    # O(n): scan every element once to find the maximum by hand.
+    var nums: InlineArray[Int, 6] = [4, 1, 7, 3, 9, 2]
+    var largest: Int = nums[0]
+    for n in nums:
+        if n > largest:
+            largest = n
+    print(largest)                              # 9
