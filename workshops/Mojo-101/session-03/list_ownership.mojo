@@ -12,5 +12,7 @@ def push(mut values: List[Int], var x: Int):
 
 def main():
     var nums: List[Int] = [10, 20, 30]
+    ref first = nums[0]
+    print("first: ", first)
     push(nums, 40)              # nums is now [10, 20, 30, 40], mutated in place
-    print(total(nums))          # 100
+    print("total: ", total(nums))          # 100
