@@ -73,11 +73,12 @@ def main() raises:
     # - block_dim=num_elements: use 'num_elements' threads per block (one
     #   thread per vector element)
     ctx.enqueue_function[scalar_add](
+        # ToDo: add args
         device_buffer,
         num_elements,
         Float32(20.0),
         grid_dim=1,
-        block_dim=num_elements,
+        block_dim=num_elements
     )
 
     # Copy the computed results back from device memory to host memory.
