@@ -1,15 +1,14 @@
 from std.math import iota
 from std.sys import exit, has_accelerator
 
-from std.gpu.host import DeviceContext
-from std.gpu import block_dim, block_idx, thread_idx
+from max.gpu.host import DeviceContext
+from max.gpu import block_dim, block_idx, thread_idx
 
 comptime num_elements = 20
 
-from std.gpu import block_dim, block_idx, thread_idx
 
 def scalar_add(
-    vector: UnsafePointer[Float32, MutAnyOrigin], size: Int, scalar: Float32
+    vector: Pointer[Float32, MutAnyOrigin], size: Int32, scalar: Float32
 ):
     """
     Kernel function to add a scalar to all elements of a vector.
@@ -30,24 +29,25 @@ def scalar_add(
     # block_idx.x: index of the current thread block.
     # block_dim.x: number of threads per block.
     # thread_idx.x: index of the current thread within its block.
-    idx = block_idx.x * block_dim.x + thread_idx.x
+    var idx = block_idx.x * block_dim.x + thread_idx.x
 
     # Bounds checking: ensure we don't access memory beyond the vector size.
     # This is crucial when the number of threads doesn't exactly match vector
     # size.
-    if idx < size:
+    if idx < Int(size):
         # Each thread adds the scalar to its corresponding vector element
         # This operation happens in parallel across all GPU threads
-        vector[idx] += scalar
+        vector[unsafe_offset=idx] += scalar
 
 def main() raises:
     comptime assert has_accelerator(), "No accelerator available"
 
     # Initialize GPU context for device 0 (default GPU device).
-    ctx = DeviceContext()
+    var ctx = DeviceContext()
+    print("Found GPU:", ctx.name(), "\n")
 
     # Create a buffer in host (CPU) memory to store our input data
-    host_buffer = ctx.enqueue_create_host_buffer[DType.float32](
+    var host_buffer = ctx.enqueue_create_host_buffer[DType.float32](
         num_elements
     )
 
@@ -59,7 +59,7 @@ def main() raises:
     print("Original host buffer:", host_buffer)
 
     # Create a buffer in device (GPU) memory to store data for computation.
-    device_buffer = ctx.enqueue_create_buffer[DType.float32](num_elements)
+    var device_buffer = ctx.enqueue_create_buffer[DType.float32](num_elements)
 
     # Copy data from host memory to device memory for GPU processing.
     ctx.enqueue_copy(src_buf=host_buffer, dst_buf=device_buffer)
@@ -73,9 +73,8 @@ def main() raises:
     # - block_dim=num_elements: use 'num_elements' threads per block (one
     #   thread per vector element)
     ctx.enqueue_function[scalar_add](
-        # ToDo: add args
         device_buffer,
-        num_elements,
+        Int32(num_elements),
         Float32(20.0),
         grid_dim=1,
         block_dim=num_elements
