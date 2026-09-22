@@ -24,6 +24,7 @@ def main() raises:
     comptime assert has_accelerator(), "No accelerator available"
 
     var ctx = DeviceContext()
+    print("Found GPU:", ctx.name(), "\n")
 
     # 1. Host buffer, filled with matrix [0, 1, 2, 3, 4]...
     var host_buffer = ctx.enqueue_create_host_buffer[DType.float32](num_elements)
