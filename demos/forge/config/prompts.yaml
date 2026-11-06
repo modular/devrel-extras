@@ -1,0 +1,24 @@
+prompts:
+  - id: solar-system
+    title: Solar system
+    description: Eight planets, click for facts
+    prompt: |
+      Sun and eight planets on orbits; click or hover for name and fact; gentle camera; every planet clearly visible.
+
+  - id: pelican-bicycle
+    title: Pelican
+    description: Animated SVG benchmark
+    prompt: |
+      Pelican riding a bicycle as animated SVG inline in index.html—looping wheels or pedaling. SVG only.
+
+  - id: sunset-circuit
+    title: Racing game
+    description: 3D lap race, keyboard
+    prompt: |
+      3D closed-track race: keyboard drive, AI opponent, lap win, restart. Countdown before GO; cars stay on track; chase cam and control legend.
+
+  - id: eiffel-tower
+    title: Eiffel Tower
+    description: 3D tower, orbit views
+    prompt: |
+      Procedural Eiffel Tower lattice on Champ de Mars; orbit from load; named viewpoint buttons and auto-orbit; day/night and tower-lights toggles.

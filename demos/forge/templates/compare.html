@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% from "macros/ui_icons.html" import icon_circle_check, icon_circle_x %}
+{% block title %}Forge{% endblock %}
+{% block body_class %}page-compare{% endblock %}
+{% block content %}
+  <header class="compare-bar">
+    <div class="compare-bar-start">
+      <a class="compare-bar-home-link" href="/" aria-label="Back to Forge setup">
+        {% include "partials/modular_mark.html" %}
+      </a>
+      <div class="compare-bar-main">
+        <h1>{{ prompt_label }}</h1>
+        <button
+          type="button"
+          class="btn btn-sm btn-ghost compare-prompt-open"
+          aria-haspopup="dialog"
+        >
+          View agent prompt
+        </button>
+      </div>
+    </div>
+    <div class="compare-bar-end">
+      {% include "partials/modular_serve_caption.html" %}
+    </div>
+  </header>
+
+  <div class="lane-grid" data-lanes="{{ lanes|length }}">
+    {% for lane in lanes %}
+      <article
+        class="lane"
+        data-run-id="{{ lane.run_id }}"
+        data-events-url="{{ lane.events_url }}"
+        data-preview-url="{{ lane.preview_url }}"
+      >
+        <div class="lane-head">
+          <div class="lane-head-main">
+            <div class="lane-title-row">
+              <span class="lane-run-mark" aria-hidden="true">
+                <span class="lane-spinner"></span>
+                <span class="lane-run-icon lane-run-icon--done">{{ icon_circle_check() }}</span>
+                <span class="lane-run-icon lane-run-icon--failed">{{ icon_circle_x() }}</span>
+              </span>
+              <div class="lane-title-text">
+                <h2>{{ lane.label }}</h2>
+                <span class="lane-model-id" title="{{ lane.model }}">{{ lane.model }}</span>
+              </div>
+              <div class="lane-status-group" aria-live="polite">
+                <span class="lane-status-text">Running</span>
+              </div>
+            </div>
+            <div class="lane-stats" aria-live="polite">
+              <span class="lane-stat lane-stat--time" title="Elapsed wall time">
+                <span class="lane-stat-k">Time</span>
+                <span class="lane-stat-v lane-elapsed-value">—</span>
+              </span>
+              <span class="lane-stat lane-stat--usage" hidden title="Prompt and completion tokens">
+                <span class="lane-stat-k">Tokens</span>
+                <span class="lane-stat-v">
+                  <span class="lane-stat-in">0</span><span class="lane-stat-unit"> in</span>
+                  <span class="lane-stat-dot" aria-hidden="true">·</span>
+                  <span class="lane-stat-out">0</span><span class="lane-stat-unit"> out</span>
+                </span>
+              </span>
+              <span class="lane-stat lane-stat--cache" hidden title="Cached prompt tokens">
+                <span class="lane-stat-k">Cached</span>
+                <span class="lane-stat-v lane-stat-cache">0</span>
+              </span>
+              <span class="lane-stat lane-stat--cost" hidden title="Estimated API cost">
+                <span class="lane-stat-k">Cost</span>
+                <span class="lane-stat-v lane-stat-cost">—</span>
+              </span>
+              <div class="lane-stat-actions">
+                <a
+                  class="btn btn-sm btn-ghost lane-preview-open"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open built app in a new tab"
+                  aria-hidden="true"
+                  tabindex="-1"
+                  hidden
+                >
+                  Open app
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-ghost lane-trace-open"
+                  aria-haspopup="dialog"
+                >
+                  View detailed trace
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-wrap">
+          <iframe
+            class="lane-building"
+            src="/static/building-wait.html?v=20260329e"
+            title="Building…"
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
+          <iframe
+            class="lane-preview"
+            title="Preview {{ lane.label }}"
+            sandbox="allow-scripts allow-same-origin"
+            hidden
+          ></iframe>
+        </div>
+        <dialog class="trace-dialog" aria-labelledby="trace-title-{{ loop.index }}">
+          <div class="trace-dialog-bar">
+            <h3 id="trace-title-{{ loop.index }}" class="trace-dialog-title">{{ lane.label }} trace</h3>
+            <button type="button" class="btn btn-sm trace-dialog-close">Close</button>
+          </div>
+          <div class="trace-dialog-body">
+            <p class="trace-dialog-note">
+              Raw live tail from the Goose CLI (<span class="mono">stream-json</span> on stdout). We only pull out assistant text and tool-step markers—no full event parser—so it stays verbose and may repeat <span class="mono">▸ tool</span> when the stream omits tool names. Stderr lines appear as <span class="mono">log</span> events.
+            </p>
+            <pre class="lane-trace" aria-live="polite"></pre>
+          </div>
+        </dialog>
+      </article>
+    {% endfor %}
+  </div>
+
+  <dialog id="compare-prompt-dialog" class="trace-dialog compare-prompt-dialog" aria-labelledby="compare-prompt-title">
+    <div class="trace-dialog-bar">
+      <h2 id="compare-prompt-title" class="trace-dialog-title">Agent prompt</h2>
+      <button type="button" class="btn btn-sm trace-dialog-close compare-prompt-close">Close</button>
+    </div>
+    <div class="trace-dialog-body compare-prompt-body">
+      <p class="trace-dialog-note">
+        Same sections concatenated into one Goose <span class="mono">--text</span> for every lane.
+      </p>
+      {% if resolved.preassembled %}
+        <section class="compare-prompt-section">
+          <div class="compare-prompt-section-head">
+            <h3 class="compare-prompt-section-title">Full agent prompt</h3>
+          </div>
+          <pre class="lane-trace compare-prompt-text">{{ resolved.brief }}</pre>
+        </section>
+      {% else %}
+        <section class="compare-prompt-section">
+          <div class="compare-prompt-section-head">
+            <h3 class="compare-prompt-section-title">Your prompt</h3>
+          </div>
+          <pre class="lane-trace compare-prompt-text">{{ resolved.brief }}</pre>
+        </section>
+        {% if resolved.threejs_block %}
+          <section class="compare-prompt-section">
+            <div class="compare-prompt-section-head">
+              <h3 class="compare-prompt-section-title">Three.js engine brief</h3>
+              <p class="compare-prompt-section-aside">Extra engine rules for 3D presets so imports and lighting stay consistent.</p>
+            </div>
+            <pre class="lane-trace compare-prompt-text">{{ resolved.threejs_block }}</pre>
+          </section>
+        {% endif %}
+        <section class="compare-prompt-section">
+          <div class="compare-prompt-section-head">
+            <h3 class="compare-prompt-section-title">Constraints</h3>
+            <p class="compare-prompt-section-aside">Same build rules on every lane so previews are fair to compare.</p>
+          </div>
+          <pre class="lane-trace compare-prompt-text">{{ resolved.constraints.replace('Constraints:', '', 1).strip() }}</pre>
+        </section>
+        <section class="compare-prompt-section">
+          <div class="compare-prompt-section-head">
+            <h3 class="compare-prompt-section-title">Agent playbook</h3>
+            <p class="compare-prompt-section-aside">Shared Goose workflow so each run finishes in the sandbox and sets preview ready.</p>
+          </div>
+          <pre class="lane-trace compare-prompt-text">{{ resolved.playbook.replace('Agent playbook:', '', 1).strip() }}</pre>
+        </section>
+      {% endif %}
+    </div>
+  </dialog>
+{% endblock %}
+{% block scripts %}
+  <script src="/static/compare.js?v=20260329g"></script>
+{% endblock %}

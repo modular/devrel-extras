@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Building…</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #f4f2ff;
+        color: #020c13;
+        font: 13px/1.35 Inter, system-ui, sans-serif;
+      }
+      .shell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+        width: 100%;
+        padding: 0.75rem;
+        gap: 0.75rem;
+      }
+      .label {
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #676d71;
+        text-align: center;
+      }
+      canvas {
+        display: block;
+        width: min(100%, 22rem);
+        height: auto;
+        aspect-ratio: 1;
+        border: 1px solid #dfe2e6;
+        border-radius: 4px;
+        background: #ebe8ff;
+        touch-action: none;
+      }
+      .static-only {
+        display: none;
+        width: 100%;
+        margin: 0;
+        font-weight: 500;
+        color: #676d71;
+        text-align: center;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        canvas {
+          display: none;
+        }
+        .static-only {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <p class="label">Building…</p>
+      <p class="static-only">Building…</p>
+      <canvas id="game" width="280" height="280" aria-label="Snake mini-game"></canvas>
+    </div>
+    <script>
+      (function () {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        var canvas = document.getElementById("game");
+        var ctx = canvas.getContext("2d");
+        var size = 14;
+        var cells = canvas.width / size;
+        function initialSnake() {
+          return [
+            { x: 7, y: 7 },
+            { x: 6, y: 7 },
+            { x: 5, y: 7 },
+          ];
+        }
+        var snake = initialSnake();
+        var dir = { x: 1, y: 0 };
+        var next = { x: 1, y: 0 };
+        var food = { x: 12, y: 7 };
+        var tick = 0;
+        var interval = 16;
+        var startInterval = 16;
+        var minInterval = 10;
+
+        function randFood() {
+          for (;;) {
+            var p = {
+              x: Math.floor(Math.random() * cells),
+              y: Math.floor(Math.random() * cells),
+            };
+            if (
+              !snake.some(function (s) {
+                return s.x === p.x && s.y === p.y;
+              })
+            ) {
+              return p;
+            }
+          }
+        }
+
+        function reset() {
+          snake = initialSnake();
+          dir = { x: 1, y: 0 };
+          next = { x: 1, y: 0 };
+          food = randFood();
+          interval = startInterval;
+        }
+
+        window.addEventListener("keydown", function (e) {
+          var k = e.key;
+          var handled = false;
+          if (k === "ArrowUp" && next.y !== 1) {
+            next = { x: 0, y: -1 };
+            handled = true;
+          } else if (k === "ArrowDown" && next.y !== -1) {
+            next = { x: 0, y: 1 };
+            handled = true;
+          } else if (k === "ArrowLeft" && next.x !== 1) {
+            next = { x: -1, y: 0 };
+            handled = true;
+          } else if (k === "ArrowRight" && next.x !== -1) {
+            next = { x: 1, y: 0 };
+            handled = true;
+          }
+          if (handled) e.preventDefault();
+        });
+
+        canvas.tabIndex = 0;
+        canvas.addEventListener("pointerdown", function () {
+          canvas.focus({ preventScroll: true });
+        });
+
+        function draw() {
+          ctx.fillStyle = "#ebe8ff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#637bff";
+          ctx.fillRect(food.x * size, food.y * size, size - 1, size - 1);
+          snake.forEach(function (seg, i) {
+            ctx.fillStyle = i === 0 ? "#5c62ff" : "#8b90ff";
+            ctx.fillRect(seg.x * size, seg.y * size, size - 1, size - 1);
+          });
+        }
+
+        function step() {
+          dir = next;
+          var head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+          if (head.x < 0 || head.y < 0 || head.x >= cells || head.y >= cells) {
+            reset();
+            return;
+          }
+          var willEat = head.x === food.x && head.y === food.y;
+          var bodyLen = willEat ? snake.length : snake.length - 1;
+          for (var i = 0; i < bodyLen; i++) {
+            if (snake[i].x === head.x && snake[i].y === head.y) {
+              reset();
+              return;
+            }
+          }
+          snake.unshift(head);
+          if (willEat) {
+            food = randFood();
+            interval = Math.max(minInterval, interval - 1);
+          } else snake.pop();
+        }
+
+        function loop() {
+          tick++;
+          if (tick % interval === 0) step();
+          draw();
+          requestAnimationFrame(loop);
+        }
+
+        loop();
+      })();
+    </script>
+  </body>
+</html>

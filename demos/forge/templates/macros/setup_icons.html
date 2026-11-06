@@ -1,0 +1,27 @@
+{# Lucide-style inline SVGs (ISC) — no npm/font; copy only what we use. #}
+{% macro prompt_icon(prompt_id) %}
+  <span class="tile-icon" aria-hidden="true">
+    <svg class="tile-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      {% if prompt_id == 'solar-system' %}
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+        <path d="M2 12h20" />
+      {% elif prompt_id == 'pelican-bicycle' %}
+        <circle cx="18.5" cy="17.5" r="3.5" />
+        <circle cx="5.5" cy="17.5" r="3.5" />
+        <circle cx="15" cy="5" r="1" />
+        <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
+      {% elif prompt_id == 'sunset-circuit' %}
+        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+        <line x1="4" x2="4" y1="22" y2="15" />
+      {% elif prompt_id == 'eiffel-tower' %}
+        <path d="M10 18v-7" />
+        <path d="M14 18v-7" />
+        <path d="M18 6H6l2 7h8l2-7Z" />
+        <path d="M5 21h14" />
+      {% else %}
+        <circle cx="12" cy="12" r="10" />
+      {% endif %}
+    </svg>
+  </span>
+{% endmacro %}

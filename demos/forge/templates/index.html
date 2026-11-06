@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% from "macros/setup_icons.html" import prompt_icon %}
+{% from "macros/ui_icons.html" import icon_circle_check, icon_circle_check_filled, icon_chevron_down, icon_plus %}
+{% block title %}Forge{% endblock %}
+{% block body_class %}page-setup{% endblock %}
+{% block content %}
+  <div class="setup-stack">
+    <div class="setup-card">
+      <header class="page-head page-head--spread page-head--setup">
+        <div>
+          <h1>Forge</h1>
+          <p class="lede">Same prompt, one to four frontier-level models, parallel sandboxes.</p>
+        </div>
+        {% include "partials/modular_mark.html" %}
+      </header>
+
+      <form method="post" action="/compare" class="setup-form" autocomplete="off">
+        <div class="setup-form-main">
+          <section class="setup-section panel">
+            <div class="panel-head">
+              <h2 class="panel-title">Prompt</h2>
+              <label class="prompt-custom-field" for="prompt_custom_switch">
+                <input
+                  type="checkbox"
+                  class="prompt-custom-switch-input"
+                  id="prompt_custom_switch"
+                  role="switch"
+                  aria-checked="false"
+                />
+                <span class="prompt-custom-switch" aria-hidden="true">
+                  <span class="prompt-custom-switch-thumb"></span>
+                </span>
+                <span class="panel-head-aside">Custom prompt</span>
+              </label>
+            </div>
+            <div class="panel-body">
+              <div class="prompt-preset-panel" id="prompt_preset_panel">
+                <div class="prompt-toggle-grid" role="radiogroup" aria-label="Example prompt">
+                  {% for ex in examples %}
+                    <label class="prompt-tile">
+                      <input type="radio" name="prompt_id" value="{{ ex.id }}" {% if loop.first %}checked{% endif %} />
+                      {{ prompt_icon(ex.id) }}
+                      <span class="prompt-tile-body">
+                        <span class="prompt-tile-title">{{ ex.title }}</span>
+                        {% if ex.description %}
+                          <span class="prompt-tile-hint">{{ ex.description }}</span>
+                        {% endif %}
+                      </span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="prompt-custom-panel" id="prompt_custom_panel" hidden>
+                <textarea
+                  id="prompt_text"
+                  name="prompt_text"
+                  rows="5"
+                  class="input prompt-custom-input"
+                  aria-label="Custom prompt"
+                  placeholder="Describe what to build: static browser app, interactions, style…"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="setup-section setup-section--models panel">
+            <div class="panel-head">
+              <h2 class="panel-title">Models</h2>
+              <p class="panel-head-aside">Choose 1–4 frontier-level models.</p>
+            </div>
+            <div class="panel-body">
+              <div class="model-select" id="model_select" data-min="1" data-max="4">
+                <button
+                  type="button"
+                  class="model-select-trigger model-select-trigger--compact input"
+                  id="model_select_trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="model_select_panel"
+                >
+                  <span class="model-select-summary" id="model_select_summary" aria-hidden="true">
+                    {% for p in profiles %}
+                      {% if loop.index <= 2 %}
+                        {% if loop.index > 1 %}
+                          <span class="model-select-summary-sep" aria-hidden="true">{{ icon_plus() }}</span>
+                        {% endif %}
+                        <span class="model-select-summary-item">{{ p.label }}</span>
+                      {% endif %}
+                    {% endfor %}
+                  </span>
+                  <span class="model-select-placeholder" id="model_select_placeholder" hidden>Choose 1–4 models…</span>
+                  <span class="model-select-chevron" aria-hidden="true">{{ icon_chevron_down() }}</span>
+                </button>
+                <div
+                  class="model-select-panel"
+                  id="model_select_panel"
+                  hidden
+                  role="listbox"
+                  aria-multiselectable="true"
+                  aria-label="Models to compare"
+                >
+                  <div class="model-select-list">
+                    {% for p in profiles %}
+                      <label class="model-tile model-tile--option" role="option">
+                        <input type="checkbox" name="profile_keys" value="{{ p.key }}" {% if loop.index <= 2 %}checked{% endif %} />
+                        <span class="model-tile-body">
+                          <span class="model-tile-title-row">
+                            <span class="model-tile-title">{{ p.label }}</span>
+                            <span class="model-tile-mark">
+                              <span class="model-tile-mark-icon model-tile-mark-icon--stroke" aria-hidden="true">
+                                {{ icon_circle_check() }}
+                              </span>
+                              <span class="model-tile-mark-icon model-tile-mark-icon--filled" aria-hidden="true">
+                                {{ icon_circle_check_filled() }}
+                              </span>
+                            </span>
+                          </span>
+                          <span class="model-tile-meta">
+                            <span class="model-tile-line">
+                              <span class="model-tile-k">Context</span>
+                              <span class="model-tile-v">{{ p.context_window }}</span>
+                            </span>
+                            {% if p.pricing_label %}
+                              <span class="model-tile-line" title="{{ p.pricing_title }}">
+                                <span class="model-tile-k">Price</span>
+                                <span class="model-tile-v model-tile-v--tabular">{{ p.pricing_label }}<span class="model-tile-unit"> /1M</span></span>
+                              </span>
+                            {% endif %}
+                          </span>
+                        </span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                </div>
+                <p class="model-select-status model-select-status--ok" id="model_select_status" aria-live="polite">
+                  2 of 4 selected
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="setup-card-footer">
+          <button type="submit" class="btn btn-primary btn-primary--wide">Run compare</button>
+        </footer>
+      </form>
+    </div>
+
+    <footer class="setup-attribution">
+      <p class="setup-attribution__serve">
+        {% include "partials/modular_serve_text.html" %}
+      </p>
+      <p class="setup-attribution__legal">Modular Inc, A Qualcomm Company.</p>
+    </footer>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script src="/static/setup.js?v=20251105g"></script>
+{% endblock %}

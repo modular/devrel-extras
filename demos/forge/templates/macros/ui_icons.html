@@ -1,0 +1,106 @@
+{# Lucide-style inline SVGs (ISC) — shared UI marks #}
+{% macro icon_circle_check(class) %}
+  <svg
+    class="ui-icon ui-icon--circle-check{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="m9 12 2 2 4-4" />
+  </svg>
+{% endmacro %}
+
+{% macro icon_circle_check_filled(class) %}
+  <svg
+    class="ui-icon ui-icon--circle-check-filled{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" fill="currentColor" stroke="none" />
+    <path
+      d="m9 12 2 2 4-4"
+      fill="none"
+      stroke="var(--color-text-on-accent)"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+{% endmacro %}
+
+{% macro icon_circle_x(class) %}
+  <svg
+    class="ui-icon ui-icon--circle-x{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="m15 9-6 6" />
+    <path d="m9 9 6 6" />
+  </svg>
+{% endmacro %}
+
+{% macro icon_plus(class) %}
+  <svg
+    class="ui-icon ui-icon--plus{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M5 12h14" />
+    <path d="M12 5v14" />
+  </svg>
+{% endmacro %}
+
+{% macro icon_chevron_down(class) %}
+  <svg
+    class="ui-icon ui-icon--chevron-down{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+{% endmacro %}
+
+{% macro icon_bug(class) %}
+  <svg
+    class="ui-icon ui-icon--bug{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M8 2v4" />
+    <path d="m9 2 1 4" />
+    <path d="M15 2v4" />
+    <path d="m14 2 1 4" />
+    <path d="M9 9a3 3 0 0 0 6 0" />
+    <path d="M12 12v7" />
+    <path d="M8 22v-5H6a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h2" />
+    <path d="M16 22v-5h2a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-2" />
+    <path d="M8 12H4a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h4" />
+    <path d="M16 12h4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-4" />
+  </svg>
+{% endmacro %}

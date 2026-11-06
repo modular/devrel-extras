@@ -1,0 +1,25 @@
+profiles:
+  - key: m3-shared
+    label: MiniMax M3
+    context_window: "1M"
+    goose_provider: modular
+    model: minimax/minimax-m3
+    api_key_env: MODULAR_API_KEY
+  - key: m3.1-flash-shared
+    label: MiniMax M3.1 Flash
+    context_window: "1M"
+    goose_provider: modular
+    model: MiniMaxAI/MiniMax-M3.1-Flash
+    api_key_env: MODULAR_API_KEY
+  - key: deepseek-v4.1-flash-shared
+    label: DeepSeek V4.1 Flash
+    context_window: "1M"
+    goose_provider: modular
+    model: deepseek/deepseek-v4.1-flash-1017
+    api_key_env: MODULAR_API_KEY
+  - key: gemma-4-31b-shared
+    label: Gemma 4 31B
+    context_window: "256K"
+    goose_provider: modular
+    model: google/gemma-4-31b-it
+    api_key_env: MODULAR_API_KEY
