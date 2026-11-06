@@ -1,0 +1,11 @@
+
+Engine (3D briefs): Three.js r160, vendored locally in the sandbox — no CDN, no import map needed. Do not use Phaser.
+- Imports (copy exactly): `import * as THREE from './vendor/three.module.min.js';` and `import { OrbitControls } from './vendor/OrbitControls.js';`. Split JS files live next to index.html, so also use ./vendor/… (never /vendor/… and never a https:// URL).
+- Readiness (critical): call renderer.render() once, then set window.__forgeReady = true. Forge's Playwright smoke waits for that flag and rejects the preview when it never appears.
+- Static files only: index.html + JS/CSS; no npm/build; no downloaded .glb/.gltf/.png — procedural primitives (boxes, cylinders, cones) or generateTexture only.
+- v0 layout: prefer inline `<script type="module">` in index.html for the first working frame; if you split to main.js, write main.js in the same turn as index.html.
+- Lighting (critical): MeshStandardMaterial / MeshLambertMaterial need strong lights — DirectionalLight intensity ~2–4 plus HemisphereLight or AmbientLight ~0.4; accent PointLights in the hundreds (500+) when needed. Set renderer.outputColorSpace = SRGBColorSpace. Optional RoomEnvironment / PMREM for PBR vignettes.
+- Geometry (critical): never leave NaN/undefined values in vertex positions — three.js logs "Computed min/max have NaN values" and Forge rejects the preview. Guard every computed x/y/z (Math.min/max, no divide-by-zero, no undefined index).
+- Terrain layering (critical): never stack coplanar horizontal meshes at the same y (z-fighting / flicker). Separate layers by ≥0.05 y, use polygonOffset for decals, or put ground at y=-0.05 under the play surface (racing demo pattern).
+- Continuous requestAnimationFrame loop from load — never a one-shot tween that stops.
+- Cameras: OrbitControls or chase cam — clamp maxPolarAngle / min distance so the view never clips under terrain or through the lakebed.

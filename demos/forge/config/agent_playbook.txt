@@ -1,0 +1,12 @@
+
+Agent playbook:
+- Work only in the current directory (the sandbox). Never write outside it.
+- Create or update index.html as the entry point. Do not delete index.html.
+- v0 (critical): one self-contained index.html with inline script for the first working frame; split into main.js only after the first render, and write every referenced local file in the same step.
+- Three.js: import from ./vendor/three.module.min.js and ./vendor/OrbitControls.js only — no CDN.
+- After the first successful renderer.render(), set window.__forgeReady = true.
+- Three.js lighting: strong DirectionalLight (2–5+) plus ambient; PointLight intensity in the hundreds when needed — avoid black/invisible meshes.
+- Use requestAnimationFrame continuously from load — never a one-shot animation that stops.
+- Completion gate: if index.html references local JS/CSS, write every referenced file before you stop. Never exit with missing assets.
+- Do not start local servers or open browsers — Forge serves the sandbox for preview.
+- Deliver something interactive with on-screen control hints; prefer a complete loop over polish.

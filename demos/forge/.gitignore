@@ -1,0 +1,12 @@
+data/
+.venv/
+__pycache__/
+*.pyc
+.env
+.impeccable/
+
+# Local Docker (never commit)
+docker/
+.docker/
+docker-export/
+*.docker.tar
