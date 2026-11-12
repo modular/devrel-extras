@@ -10,3 +10,6 @@ venv
 
 # Saved mojo matrix
 .data
+
+# Advent of Code puzzle inputs (personal, not to be redistributed)
+input/
