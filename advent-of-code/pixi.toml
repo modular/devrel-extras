@@ -1,8 +1,7 @@
 [workspace]
-authors = ["dunnoconnor <michael.dunn.oconnor@gmail.com>"]
 channels = ["https://conda.modular.com/max", "conda-forge"]
 name = "advent-of-code"
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "linux-64", "linux-aarch64"]
 version = "0.1.0"
 
 [tasks]
